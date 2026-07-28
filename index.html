@@ -10,12 +10,26 @@
     <link rel="icon" href="logo.ico">
     <title>Swinburne Virtual Universe</title>
 </head>
-<body>
+<body class="home-page">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <header class="site-header">
+        <div class="site-header__inner">
+            <a class="site-brand" href="index.html" aria-label="Swinburne Virtual Universe home">
+                <img src="logo.svg" alt="">
+            </a>
+            <nav class="site-nav" aria-label="Primary navigation">
+                <a href="index.html" aria-current="page">Home</a>
+                <a href="public-events.html">Public Events</a>
+                <a href="school-visits.html">School Visits</a>
+                <a href="private-event-hire.html">Private Event Hire</a>
+            </nav>
+        </div>
+    </header>
     <div class="cursor">
         <p class="cursor-text"></p>
     </div>
-    <div class="scroll-container">
-        <div class="hero">
+    <main id="main-content" class="scroll-container">
+        <div class="hero" data-reveal-section>
             <div class="text">
                 <div class="left-column">
                     <h1>Welcome to the Swinburne Virtual Universe</h1>
@@ -23,7 +37,7 @@
                 <div class="right-column">
                     <p>The Swinburne Virtual Universe combines immersive visualisation, real scientific data, and cutting-edge technology to transform how we explore, communicate, and experience space.</p>
                     <div class="hero-buttons">
-                        <a href="" class="right-button">
+                        <a href="#about" class="right-button">
                             <div>
                                 <div class="text-container-border">
                                     <div class="text-indicator">
@@ -39,7 +53,7 @@
                                 </div>
                             </div>
                         </a>
-                        <a href="" class="down-button">
+                        <a href="#about" class="down-button">
                             <div>
                                 <div class="text-container-border">
                                     <div class="text-indicator">
@@ -62,7 +76,7 @@
                 <video src="svu-video.mp4" autoplay loop muted></video>
             </div>
         </div>
-        <div class="about">
+        <div class="about" id="about" data-reveal-section>
             <div class="top-text">
                 <h2 class="heading">About</h2>
                 <h1>The Swinburne Virtual Universe is an</h1>
@@ -87,7 +101,7 @@
                 </div>
             </div>
         </div>
-        <div class="stats">
+        <div class="stats" data-reveal-section>
             <div class="left-column">
                 <p class="image-caption">Image: Description of image goes here. E.g. Dr. Kirsten presenting stuff</p>
                 <img src="icon-wide.svg" alt="">
@@ -114,13 +128,13 @@
                 </div>
             </div>
         </div>
-        <div class="services">
+        <div class="services" id="services" data-reveal-section>
             <div class="left-column">
                 <div class="image-container"><img src="SVU07BCropped5.jpg" alt=""></div>
                 <div class="services-info">
                     <div class="title">
                         <h1>Public Events</h1>
-                        <a href="" class="right-button">
+                        <a href="public-events.html" class="right-button">
                             <div>
                                 <div class="text-container-border">
                                     <div class="text-indicator">
@@ -181,30 +195,30 @@
                      data-title="Public Events"
                      data-description="Curated shows blending real scientific data with cinematic visuals - from the birth of stars to the collision of black holes. Open to everyone."
                      data-cta="Browse Events"
-                     data-href="">
-                    <img src="SVU07BCropped5.jpg" alt="">
+                     data-href="public-events.html">
+                    <img src="SVU07BCropped5.jpg" alt="Visitors experiencing an immersive space visualisation">
                 </div>
                 <div class="interactive-imgs"
-                     data-title="School Programs"
+                     data-title="School Visits"
                      data-description="Curriculum-aligned immersive sessions that bring space science to life for primary and secondary students, led by expert presenters."
                      data-cta="Book a Visit"
-                     data-href="">
-                    <img src="SVU01D.jpg" alt="">
+                     data-href="school-visits.html">
+                    <img src="SVU01D.jpg" alt="Students exploring scientific imagery in the Virtual Universe">
                 </div>
                 <div class="interactive-imgs"
-                     data-title="Research & Hire"
+                     data-title="Private Event Hire"
                      data-description="A customisable visualisation space for researchers, industry partners, and organisations to present data, host briefings, or stage private events."
                      data-cta="Enquire Now"
-                     data-href="">
-                    <img src="SVU20B.jpg" alt="">
+                     data-href="private-event-hire.html">
+                    <img src="SVU20B.jpg" alt="Guests gathered inside the Virtual Universe">
                 </div>
             </div>
         </div>
-        <div class="contact">
+        <div class="contact" id="contact" data-reveal-section>
             <div class="overlay"></div>
             <div class="text">
                 <h1>The universe is just getting started.</h1>
-                <a href="" class="right-button white">
+                <a href="private-event-hire.html#enquire" class="right-button white">
                     <div>
                         <div class="text-container-border">
                             <div class="text-indicator">
@@ -222,8 +236,8 @@
                 </a>
             </div>
         </div>
-    </div>
-    <div class="footer">
+    </main>
+    <div class="footer" data-reveal-section>
         <div class="footer-content">
         <div class="logo">
             <img src="swin-logo.svg" alt="">
@@ -235,16 +249,16 @@
         <div class="links">
             <div class="navigation">
                 <h2>Navigation</h2>
-                <a href="">Home</a>
-                <a href="">About</a>
-                <a href="">Contact</a>
+                <a href="index.html">Home</a>
+                <a href="index.html#about">About</a>
+                <a href="index.html#contact">Contact</a>
             </div>
             <div class="footer-services">
                 <h2>Services</h2>
-                <a href="">Public Events</a>
-                <a href="">School Programs</a>
-                <a href="">Research & Hire</a>
-                <a href="">Staff Login</a>
+                <a href="public-events.html">Public Events</a>
+                <a href="school-visits.html">School Visits</a>
+                <a href="private-event-hire.html">Private Event Hire</a>
+                <span class="footer-link-muted" aria-disabled="true">Staff Login</span>
             </div>
         </div>
         </div>

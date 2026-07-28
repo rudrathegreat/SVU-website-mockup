@@ -1,6 +1,16 @@
 const REVEAL_STAGGER = 40;
 const ACRONYM_REVEAL_STAGGER = 180;
-const REVEAL_SECTIONS = [".hero", ".about", ".stats", ".services", ".contact", ".footer"];
+const LEGACY_REVEAL_SECTIONS = [".hero", ".about", ".stats", ".services", ".contact", ".footer"];
+
+function getRevealSections() {
+    const declaredSections = [...document.querySelectorAll("[data-reveal-section]")];
+
+    if (declaredSections.length) return declaredSections;
+
+    return LEGACY_REVEAL_SECTIONS
+        .map((selector) => document.querySelector(selector))
+        .filter(Boolean);
+}
 
 function wrapWords(el) {
     const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
@@ -162,6 +172,7 @@ function prepareButton(button) {
 
 function prepareMedia(section) {
     const mediaBlocks = [
+        "[data-reveal-media]",
         ".hero .video",
         ".about-image-content > .left-column",
         ".stats > .left-column",
@@ -170,6 +181,7 @@ function prepareMedia(section) {
     ];
 
     const contentBlocks = [
+        "[data-reveal-block]",
         ".caption",
         ".resolution",
         ".audio",
@@ -260,9 +272,23 @@ async function initTextReveal() {
         await document.fonts.ready;
     }
 
-    const sections = REVEAL_SECTIONS.map((sel) => document.querySelector(sel)).filter(Boolean);
+    const sections = getRevealSections();
 
     sections.forEach((section) => prepareSection(section));
+
+    if (window.location.hash) {
+        const hashTarget = document.getElementById(
+            decodeURIComponent(window.location.hash.slice(1))
+        );
+
+        if (hashTarget) {
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    hashTarget.scrollIntoView({ block: "start" });
+                });
+            });
+        }
+    }
 
     const observer = new IntersectionObserver(
         (entries) => {

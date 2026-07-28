@@ -1,5 +1,6 @@
 const REVEAL_STAGGER = 40;
-const REVEAL_SECTIONS = [".hero", ".about", ".stats", ".services", ".contact"];
+const ACRONYM_REVEAL_STAGGER = 180;
+const REVEAL_SECTIONS = [".hero", ".about", ".stats", ".services", ".contact", ".footer"];
 
 function wrapWords(el) {
     const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
@@ -196,7 +197,10 @@ function prepareMedia(section) {
 }
 
 function prepareSection(section) {
-    const textEls = [...section.querySelectorAll("h1, h2, p")].filter((el) => {
+    const footerLinks = section.matches(".footer")
+        ? [...section.querySelectorAll(".links a")]
+        : [];
+    const textEls = [...section.querySelectorAll("h1, h2, p"), ...footerLinks].filter((el) => {
         if (el.closest(".text-indicator")) return false;
         if (el.closest(".cursor")) return false;
         if (el.classList.contains("description-measure")) return false;
@@ -234,12 +238,16 @@ function revealSection(section) {
     section.dataset.revealed = "true";
 
     const items = getRevealItems(section);
-    items.forEach((item, i) => {
-        item.style.transitionDelay = `${i * REVEAL_STAGGER}ms`;
+    let delay = 0;
+    let clearAfter = 0;
+    items.forEach((item) => {
+        const isAcronymLetter = Boolean(item.closest(".footer .acronym"));
+        item.style.transitionDelay = `${delay}ms`;
         item.classList.add("is-visible");
+        clearAfter = Math.max(clearAfter, delay + (isAcronymLetter ? 1400 : 1200));
+        delay += isAcronymLetter ? ACRONYM_REVEAL_STAGGER : REVEAL_STAGGER;
     });
 
-    const clearAfter = REVEAL_STAGGER * Math.max(items.length - 1, 0) + 1200;
     window.setTimeout(() => {
         items.forEach((item) => {
             item.style.transitionDelay = "0ms";

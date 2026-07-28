@@ -663,6 +663,10 @@ a.reveal-line.down-button {
     font-weight:300;
 }
 
+.footer .acronym h1 .reveal-line {
+    transition-duration:1.35s;
+}
+
 .footer-content .copyright {
     display:flex;
     flex-direction: column;

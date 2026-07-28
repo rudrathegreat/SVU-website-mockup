@@ -209,10 +209,13 @@ function prepareMedia(section) {
 }
 
 function prepareSection(section) {
+    const isServicePage = document.body.classList.contains("service-page");
     const footerLinks = section.matches(".footer")
         ? [...section.querySelectorAll(".links a")]
         : [];
-    const textEls = [...section.querySelectorAll("h1, h2, p"), ...footerLinks].filter((el) => {
+    const textEls = isServicePage
+        ? []
+        : [...section.querySelectorAll("h1, h2, p"), ...footerLinks].filter((el) => {
         if (el.closest(".text-indicator")) return false;
         if (el.closest(".cursor")) return false;
         if (el.classList.contains("description-measure")) return false;

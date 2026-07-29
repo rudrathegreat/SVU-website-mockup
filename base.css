@@ -204,6 +204,10 @@ p {
 
 /* Shared reveal motion */
 
+.reveal-preparing {
+    transition:none !important;
+}
+
 .anim-clip {
     display:block;
     overflow:hidden;

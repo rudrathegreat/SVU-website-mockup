@@ -1,6 +1,16 @@
 const REVEAL_STAGGER = 40;
+const SERVICE_GROUP_STAGGER = 90;
 const ACRONYM_REVEAL_STAGGER = 180;
 const LEGACY_REVEAL_SECTIONS = [".hero", ".about", ".stats", ".services", ".contact", ".footer"];
+const SERVICE_REVEAL_BLOCKS = [
+    ".fact-grid > div",
+    ".feature-grid > *",
+    ".support-list > li",
+    ".detail-list > div",
+    ".journey-list > li",
+    ".mock-form > .form-field",
+    ".mock-form > .mock-form__footer",
+];
 
 function getRevealSections() {
     const declaredSections = [...document.querySelectorAll("[data-reveal-section]")];
@@ -159,8 +169,12 @@ function splitPlainTextIntoLines(container, text) {
     return lines;
 }
 
+function prepareRevealElement(element, className) {
+    element.classList.add("reveal-preparing", className);
+}
+
 function prepareButton(button) {
-    button.classList.add("reveal-line");
+    prepareRevealElement(button, "reveal-line");
 
     if (button.closest(".anim-clip")) return;
 
@@ -171,6 +185,7 @@ function prepareButton(button) {
 }
 
 function prepareMedia(section) {
+    const isServicePage = document.body.classList.contains("service-page");
     const mediaBlocks = [
         "[data-reveal-media]",
         ".hero .video",
@@ -191,20 +206,40 @@ function prepareMedia(section) {
 
     mediaBlocks.forEach((sel) => {
         section.querySelectorAll(sel).forEach((el) => {
-            el.classList.add("reveal-media");
+            if (isServicePage && el.matches("[data-reveal-media]")) {
+                const media = el.matches("img, video")
+                    ? el
+                    : el.querySelector("img, video");
+
+                prepareRevealElement(media || el, "reveal-media");
+                el.querySelectorAll("figcaption").forEach((caption) => {
+                    prepareRevealElement(caption, "reveal-block");
+                });
+                return;
+            }
+
+            prepareRevealElement(el, "reveal-media");
         });
     });
 
     contentBlocks.forEach((sel) => {
         section.querySelectorAll(sel).forEach((el) => {
-            el.classList.add("reveal-block");
+            prepareRevealElement(el, "reveal-block");
         });
     });
 
     section.querySelectorAll("img").forEach((img) => {
         if (img.closest(".right-button, .down-button, .img-indicator")) return;
         if (img.closest(".reveal-media, .reveal-block")) return;
-        img.classList.add("reveal-media");
+        prepareRevealElement(img, "reveal-media");
+    });
+}
+
+function prepareServiceBlocks(section) {
+    SERVICE_REVEAL_BLOCKS.forEach((selector) => {
+        section.querySelectorAll(selector).forEach((el) => {
+            prepareRevealElement(el, "reveal-block");
+        });
     });
 }
 
@@ -213,11 +248,25 @@ function prepareSection(section) {
     const footerLinks = section.matches(".footer")
         ? [...section.querySelectorAll(".links a")]
         : [];
-    const textEls = isServicePage
-        ? []
-        : [...section.querySelectorAll("h1, h2, p"), ...footerLinks].filter((el) => {
+
+    if (isServicePage) {
+        prepareServiceBlocks(section);
+    }
+
+    prepareMedia(section);
+
+    const textSelector = isServicePage ? "h1, h2, h3, p" : "h1, h2, p";
+    const serviceFooterText = isServicePage && section.matches(".footer")
+        ? [...section.querySelectorAll(".footer-link-muted")]
+        : [];
+    const textEls = [
+        ...section.querySelectorAll(textSelector),
+        ...footerLinks,
+        ...serviceFooterText,
+    ].filter((el) => {
         if (el.closest(".text-indicator")) return false;
         if (el.closest(".cursor")) return false;
+        if (isServicePage && el.closest(".reveal-block")) return false;
         if (el.classList.contains("description-measure")) return false;
         if (el.classList.contains("desc-line")) return false;
         if (el.classList.contains("reveal-line")) return false;
@@ -228,11 +277,11 @@ function prepareSection(section) {
     textEls.forEach((el) => splitElementIntoLines(el));
 
     const buttons = [...section.querySelectorAll(".right-button, .down-button")].filter(
-        (btn) => !btn.classList.contains("reveal-line")
+        (btn) =>
+            !btn.classList.contains("reveal-line") &&
+            (!isServicePage || !btn.closest(".reveal-block"))
     );
     buttons.forEach((btn) => prepareButton(btn));
-
-    prepareMedia(section);
 
     return getRevealItems(section);
 }
@@ -248,13 +297,10 @@ function getRevealItems(section) {
     );
 }
 
-function revealSection(section) {
-    if (section.dataset.revealed === "true") return;
-    section.dataset.revealed = "true";
-
-    const items = getRevealItems(section);
-    let delay = 0;
+function revealItems(items, initialDelay = 0) {
+    let delay = initialDelay;
     let clearAfter = 0;
+
     items.forEach((item) => {
         const isAcronymLetter = Boolean(item.closest(".footer .acronym"));
         item.style.transitionDelay = `${delay}ms`;
@@ -270,14 +316,96 @@ function revealSection(section) {
     }, clearAfter);
 }
 
+function revealSection(section) {
+    if (section.dataset.revealed === "true") return;
+    section.dataset.revealed = "true";
+    revealItems(getRevealItems(section));
+}
+
+function getServiceRevealTrigger(item) {
+    const acronym = item.closest(".footer .acronym");
+    if (acronym) return acronym;
+
+    if (item.classList.contains("reveal-line") || item.classList.contains("desc-line")) {
+        if (item.matches(".right-button, .down-button")) {
+            return item.closest(".anim-clip") || item;
+        }
+
+        return item.closest("[data-reveal-split='true']") || item;
+    }
+
+    return item;
+}
+
+function observeServiceRevealItems(sections, observerOptions) {
+    const revealGroups = new Map();
+
+    sections.forEach((section) => {
+        getRevealItems(section).forEach((item) => {
+            const trigger = getServiceRevealTrigger(item);
+            if (!revealGroups.has(trigger)) {
+                revealGroups.set(trigger, { items: [], section });
+            }
+            revealGroups.get(trigger).items.push(item);
+        });
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+        const sectionOffsets = new Map();
+        const intersectingEntries = entries
+            .filter((entry) => entry.isIntersecting)
+            .sort((a, b) => {
+                const ra = a.target.getBoundingClientRect();
+                const rb = b.target.getBoundingClientRect();
+                if (Math.abs(ra.top - rb.top) > 10) return ra.top - rb.top;
+                return ra.left - rb.left;
+            });
+
+        intersectingEntries.forEach((entry) => {
+            const group = revealGroups.get(entry.target);
+            if (!group) return;
+
+            const sectionOffset = sectionOffsets.get(group.section) || 0;
+            revealItems(group.items, sectionOffset);
+            sectionOffsets.set(
+                group.section,
+                sectionOffset + SERVICE_GROUP_STAGGER
+            );
+            observer.unobserve(entry.target);
+        });
+    }, observerOptions);
+
+    revealGroups.forEach((group, trigger) => observer.observe(trigger));
+}
+
+function waitForRevealPreparationFrame() {
+    return new Promise((resolve) => {
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                document.querySelectorAll(".reveal-preparing").forEach((item) => {
+                    item.classList.remove("reveal-preparing");
+                });
+                requestAnimationFrame(resolve);
+            });
+        });
+    });
+}
+
 async function initTextReveal() {
+    const sections = getRevealSections();
+    const isServicePage = document.body.classList.contains("service-page");
+
+    sections.forEach((section) => {
+        if (isServicePage) prepareServiceBlocks(section);
+        prepareMedia(section);
+    });
+
     if (document.fonts && document.fonts.ready) {
         await document.fonts.ready;
     }
 
-    const sections = getRevealSections();
-
     sections.forEach((section) => prepareSection(section));
+    await waitForRevealPreparationFrame();
 
     if (window.location.hash) {
         const hashTarget = document.getElementById(
@@ -293,6 +421,18 @@ async function initTextReveal() {
         }
     }
 
+    const observerOptions = {
+        root: null,
+        threshold: 0.15,
+        rootMargin: "0px 0px -10% 0px",
+    };
+
+    if (document.body.classList.contains("service-page")) {
+        observeServiceRevealItems(sections, observerOptions);
+        document.dispatchEvent(new Event("textreveal:ready"));
+        return;
+    }
+
     const observer = new IntersectionObserver(
         (entries) => {
             entries.forEach((entry) => {
@@ -301,11 +441,7 @@ async function initTextReveal() {
                 observer.unobserve(entry.target);
             });
         },
-        {
-            root: null,
-            threshold: 0.15,
-            rootMargin: "0px 0px -10% 0px",
-        }
+        observerOptions
     );
 
     sections.forEach((section) => observer.observe(section));

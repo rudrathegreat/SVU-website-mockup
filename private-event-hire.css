@@ -75,6 +75,12 @@
     font-size:1rem;
 }
 
+@media (max-width: 900px) {
+    .private-hire-page .editorial-split {
+        grid-template-columns:1fr;
+    }
+}
+
 @media (max-width: 640px) {
     .detail-list > div {
         grid-template-columns:1fr;

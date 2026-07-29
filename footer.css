@@ -60,6 +60,8 @@
 }
 
 .footer-content h2 {
+    font-size:1.5em;
+    line-height:normal;
     margin-bottom:1.5vh;
 }
 
@@ -96,10 +98,6 @@
     line-height:1.2;
     margin-bottom:1.5vh;
     padding-bottom:0.5vh;
-}
-
-.service-footer {
-    margin-top:0;
 }
 
 @media (max-width: 900px) {

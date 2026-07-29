@@ -1,7 +1,7 @@
 # Swinburne Virtual Universe Brand and Style Guide
 
 **Version:** 1.0  
-**Source of truth:** The homepage implementation in [`index.html`](index.html) and [`style.css`](style.css)  
+**Source of truth:** The homepage implementation in [`index.html`](index.html), [`base.css`](base.css), [`index.css`](index.css), and [`footer.css`](footer.css)
 **Purpose:** Keep all new pages visually and behaviourally consistent with the homepage.
 
 This guide documents the system visible on the homepage. Where the source shows a pattern but does not formally name it, this guide turns that pattern into a reusable rule. It does not use the later CSS block labelled “Service page foundations” to define the brand.
@@ -645,4 +645,3 @@ Before approving a new page, confirm:
 | Stack layouts cleanly on small screens | Compress desktop columns until they become cramped |
 | Keep action labels direct | Use vague labels such as “Click here” |
 | Let photography provide colour | Apply artificial colour effects to the interface |
-

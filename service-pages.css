@@ -77,12 +77,14 @@
 .service-hero__intro {
     display:flex;
     flex-direction:column;
-    align-items:flex-start;
+    align-items:flex-end;
+    width:100%;
+    margin-left:auto;
     gap:2.5rem;
     padding-bottom:0.35rem;
 }
 
-.service-hero__intro > p {
+.service-hero__description {
     max-width:35em;
     font-size:var(--new-main-text-size);
 }
@@ -643,7 +645,7 @@
 
     .service-page .service-hero__copy,
     .service-page .service-hero__intro,
-    .service-page .service-hero__intro > p {
+    .service-page .service-hero__description {
         width:100%;
         min-width:0;
         max-width:90vw;
@@ -661,7 +663,7 @@
         font-size:clamp(2.5rem, 12vw, 4rem);
     }
 
-    .service-hero__intro > p {
+    .service-hero__description {
         font-size:1.05rem;
     }
 

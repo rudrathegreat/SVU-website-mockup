@@ -1,5 +1,6 @@
 (() => {
     const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     document.querySelectorAll("[data-site-navigation]").forEach((navigation) => {
         let revealFrame;
@@ -29,15 +30,38 @@
 
         const setOpen = (open, returnFocus = false) => {
             window.clearTimeout(closeTimer);
-            services.classList.toggle("is-open", open);
             trigger.setAttribute("aria-expanded", String(open));
-            dropdown.hidden = !open;
-            dropdown.inert = !open;
+
+            if (open) {
+                dropdown.hidden = false;
+                dropdown.inert = false;
+
+                // Commit the closed visual state before starting the reveal.
+                void dropdown.offsetWidth;
+                services.classList.add("is-open");
+            } else {
+                services.classList.remove("is-open");
+                dropdown.inert = true;
+
+                if (reducedMotion.matches) {
+                    dropdown.hidden = true;
+                }
+            }
 
             if (!open && returnFocus) {
                 trigger.focus();
             }
         };
+
+        dropdown.addEventListener("transitionend", (event) => {
+            if (
+                event.target === dropdown &&
+                event.propertyName === "transform" &&
+                !services.classList.contains("is-open")
+            ) {
+                dropdown.hidden = true;
+            }
+        });
 
         const scheduleClose = () => {
             window.clearTimeout(closeTimer);

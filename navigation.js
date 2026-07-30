@@ -2,6 +2,21 @@
     const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
 
     document.querySelectorAll("[data-site-navigation]").forEach((navigation) => {
+        let revealFrame;
+
+        const updateHeaderVisibility = () => {
+            navigation.classList.toggle("is-visible", window.scrollY > 8);
+            revealFrame = null;
+        };
+
+        updateHeaderVisibility();
+
+        window.addEventListener("scroll", () => {
+            if (revealFrame === null) {
+                revealFrame = window.requestAnimationFrame(updateHeaderVisibility);
+            }
+        }, { passive: true });
+
         const services = navigation.querySelector("[data-services-item]");
         const trigger = navigation.querySelector("[data-services-trigger]");
         const dropdown = navigation.querySelector("[data-services-dropdown]");

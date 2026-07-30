@@ -3,20 +3,73 @@
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     document.querySelectorAll("[data-site-navigation]").forEach((navigation) => {
-        let revealFrame;
+        let revealFrame = null;
+        let pointerInRevealZone = false;
+        let pointerOverNavigation = false;
+        let lastPointerY = Number.POSITIVE_INFINITY;
 
         const updateHeaderVisibility = () => {
-            navigation.classList.toggle("is-visible", window.scrollY > 8);
+            const hasNavigationFocus = navigation.contains(document.activeElement);
+            const pointerShouldReveal = finePointer.matches &&
+                (pointerInRevealZone || pointerOverNavigation);
+
+            navigation.classList.toggle(
+                "is-visible",
+                window.scrollY > 8 || pointerShouldReveal || hasNavigationFocus
+            );
             revealFrame = null;
+        };
+
+        const scheduleHeaderVisibilityUpdate = () => {
+            if (revealFrame === null) {
+                revealFrame = window.requestAnimationFrame(updateHeaderVisibility);
+            }
+        };
+
+        const updatePointerRevealZone = (pointerY = lastPointerY) => {
+            lastPointerY = pointerY;
+            const nextState = finePointer.matches &&
+                pointerY <= window.innerHeight * 0.15;
+
+            if (nextState !== pointerInRevealZone) {
+                pointerInRevealZone = nextState;
+                scheduleHeaderVisibilityUpdate();
+            }
         };
 
         updateHeaderVisibility();
 
-        window.addEventListener("scroll", () => {
-            if (revealFrame === null) {
-                revealFrame = window.requestAnimationFrame(updateHeaderVisibility);
-            }
+        window.addEventListener("scroll", scheduleHeaderVisibilityUpdate, {
+            passive: true,
+        });
+
+        window.addEventListener("pointermove", (event) => {
+            updatePointerRevealZone(event.clientY);
         }, { passive: true });
+
+        window.addEventListener("resize", () => {
+            updatePointerRevealZone();
+            scheduleHeaderVisibilityUpdate();
+        }, { passive: true });
+
+        document.documentElement.addEventListener("pointerleave", () => {
+            lastPointerY = Number.POSITIVE_INFINITY;
+            pointerInRevealZone = false;
+            scheduleHeaderVisibilityUpdate();
+        });
+
+        navigation.addEventListener("pointerenter", () => {
+            pointerOverNavigation = true;
+            scheduleHeaderVisibilityUpdate();
+        });
+
+        navigation.addEventListener("pointerleave", () => {
+            pointerOverNavigation = false;
+            scheduleHeaderVisibilityUpdate();
+        });
+
+        navigation.addEventListener("focusin", scheduleHeaderVisibilityUpdate);
+        navigation.addEventListener("focusout", scheduleHeaderVisibilityUpdate);
 
         const services = navigation.querySelector("[data-services-item]");
         const trigger = navigation.querySelector("[data-services-trigger]");

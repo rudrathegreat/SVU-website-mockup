@@ -113,8 +113,9 @@
                     </div>
                 </div>
             </div>
-            <div class="video">
-                <video src="svu-video.mp4" autoplay loop muted></video>
+            <div class="video video-player" data-video-launcher>
+                <video src="svu-video.mp4" autoplay loop muted playsinline preload="metadata" aria-hidden="true"></video>
+                <button class="video-player__launch" type="button" aria-label="Open video in full screen" aria-haspopup="dialog" aria-controls="hero-video-modal" data-video-open></button>
             </div>
         </div>
         <div class="about" id="about" data-reveal-section data-about-interaction>
@@ -282,6 +283,46 @@
             </div>
         </div>
     </main>
+    <dialog class="video-modal" id="hero-video-modal" aria-label="Swinburne Virtual Universe video player" data-video-modal>
+        <div class="video-modal__frame">
+            <button class="video-control video-modal__close" type="button" aria-label="Close full screen video" data-video-close>
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M5 5 19 19M19 5 5 19"></path>
+                </svg>
+            </button>
+            <div class="video-modal__stage">
+                <video src="svu-video.mp4" playsinline preload="metadata" data-video-full></video>
+            </div>
+            <div class="video-modal__controls" data-video-controls>
+                <button class="video-control video-control--play" type="button" aria-label="Play video" data-video-play>
+                    <svg class="video-control__play-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M8 5.5 18 12 8 18.5Z"></path>
+                    </svg>
+                    <svg class="video-control__pause-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" hidden>
+                        <path d="M8 6V18M16 6V18"></path>
+                    </svg>
+                </button>
+                <span class="video-modal__time" data-video-current>0:00</span>
+                <label class="video-modal__range-wrap video-modal__range-wrap--progress">
+                    <span class="visually-hidden">Video progress</span>
+                    <input class="video-modal__range" type="range" min="0" max="100" value="0" step="0.1" aria-label="Video progress" data-video-progress>
+                </label>
+                <span class="video-modal__time" data-video-duration>0:00</span>
+                <button class="video-control" type="button" aria-label="Mute video" data-video-mute>
+                    <svg class="video-control__volume-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M4 10H8L13 6V18L8 14H4ZM16 9C17.4 10.5 17.4 13.5 16 15M18.5 6.5C21.5 9.5 21.5 14.5 18.5 17.5"></path>
+                    </svg>
+                    <svg class="video-control__muted-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" hidden>
+                        <path d="M4 10H8L13 6V18L8 14H4ZM16.5 9.5 21 14M21 9.5 16.5 14"></path>
+                    </svg>
+                </button>
+                <label class="video-modal__range-wrap video-modal__range-wrap--volume">
+                    <span class="visually-hidden">Volume</span>
+                    <input class="video-modal__range" type="range" min="0" max="1" value="1" step="0.05" aria-label="Volume" data-video-volume>
+                </label>
+            </div>
+        </div>
+    </dialog>
     <div class="footer" data-reveal-section>
         <div class="footer-content">
         <div class="logo">
@@ -318,5 +359,6 @@
     <script src="text-reveal.js"></script>
     <script src="about-interactions.js"></script>
     <script src="services.js"></script>
+    <script src="video-player.js"></script>
 </body>
 </html>

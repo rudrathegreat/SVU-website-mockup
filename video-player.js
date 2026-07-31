@@ -17,10 +17,6 @@
     const volume = modal.querySelector("[data-video-volume]");
     const currentOutput = modal.querySelector("[data-video-current]");
     const durationOutput = modal.querySelector("[data-video-duration]");
-    const playIcon = playButton.querySelector(".video-control__play-icon");
-    const pauseIcon = playButton.querySelector(".video-control__pause-icon");
-    const volumeIcon = muteButton.querySelector(".video-control__volume-icon");
-    const mutedIcon = muteButton.querySelector(".video-control__muted-icon");
     let returnFocusTo = openButton;
     let previousVolume = 1;
     let lastPointerY = Number.NEGATIVE_INFINITY;
@@ -52,17 +48,15 @@
     const updatePlayState = () => {
         const isPlaying = !video.paused && !video.ended;
         playButton.setAttribute("aria-label", isPlaying ? "Pause video" : "Play video");
-        playIcon.hidden = isPlaying;
-        pauseIcon.hidden = !isPlaying;
         modal.classList.toggle("is-playing", isPlaying);
+        modal.classList.toggle("is-paused", !isPlaying);
     };
 
     const updateMuteState = () => {
         const isMuted = video.muted || video.volume === 0;
         const displayedVolume = isMuted ? 0 : video.volume;
         muteButton.setAttribute("aria-label", isMuted ? "Unmute video" : "Mute video");
-        volumeIcon.hidden = isMuted;
-        mutedIcon.hidden = !isMuted;
+        modal.classList.toggle("is-muted", isMuted);
         volume.value = String(displayedVolume);
         volume.style.setProperty("--range-progress", `${displayedVolume * 100}%`);
         volume.setAttribute(

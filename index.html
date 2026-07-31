@@ -292,15 +292,22 @@
             </button>
             <div class="video-modal__stage">
                 <video src="svu-video.mp4" playsinline preload="metadata" data-video-full></video>
+                <span class="video-modal__pause-indicator" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" focusable="false">
+                        <path d="M8 6V18M16 6V18"></path>
+                    </svg>
+                </span>
             </div>
             <div class="video-modal__controls" data-video-controls>
                 <button class="video-control video-control--play" type="button" aria-label="Play video" data-video-play>
-                    <svg class="video-control__play-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                        <path d="M8 5.5 18 12 8 18.5Z"></path>
-                    </svg>
-                    <svg class="video-control__pause-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" hidden>
-                        <path d="M8 6V18M16 6V18"></path>
-                    </svg>
+                    <span class="video-control__icon-stack" aria-hidden="true">
+                        <svg class="video-control__play-icon" viewBox="0 0 24 24" focusable="false">
+                            <path d="M8 5.5 18 12 8 18.5Z"></path>
+                        </svg>
+                        <svg class="video-control__pause-icon" viewBox="0 0 24 24" focusable="false">
+                            <path d="M8 6V18M16 6V18"></path>
+                        </svg>
+                    </span>
                 </button>
                 <span class="video-modal__time" data-video-current>0:00</span>
                 <label class="video-modal__range-wrap video-modal__range-wrap--progress">
@@ -309,12 +316,14 @@
                 </label>
                 <span class="video-modal__time" data-video-duration>0:00</span>
                 <button class="video-control" type="button" aria-label="Mute video" data-video-mute>
-                    <svg class="video-control__volume-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                        <path d="M4 10H8L13 6V18L8 14H4ZM16 9C17.4 10.5 17.4 13.5 16 15M18.5 6.5C21.5 9.5 21.5 14.5 18.5 17.5"></path>
-                    </svg>
-                    <svg class="video-control__muted-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" hidden>
-                        <path d="M4 10H8L13 6V18L8 14H4ZM16.5 9.5 21 14M21 9.5 16.5 14"></path>
-                    </svg>
+                    <span class="video-control__icon-stack" aria-hidden="true">
+                        <svg class="video-control__volume-icon" viewBox="0 0 24 24" focusable="false">
+                            <path d="M4 10H8L13 6V18L8 14H4ZM16 9C17.4 10.5 17.4 13.5 16 15M18.5 6.5C21.5 9.5 21.5 14.5 18.5 17.5"></path>
+                        </svg>
+                        <svg class="video-control__muted-icon" viewBox="0 0 24 24" focusable="false">
+                            <path d="M4 10H8L13 6V18L8 14H4ZM16.5 9.5 21 14M21 9.5 16.5 14"></path>
+                        </svg>
+                    </span>
                 </button>
                 <label class="video-modal__range-wrap video-modal__range-wrap--volume">
                     <span class="visually-hidden">Volume</span>

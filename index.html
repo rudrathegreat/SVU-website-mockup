@@ -117,22 +117,26 @@
                 <video src="svu-video.mp4" autoplay loop muted></video>
             </div>
         </div>
-        <div class="about" id="about" data-reveal-section>
-            <div class="top-text">
-                <h2 class="heading">About</h2>
-                <h1>The Swinburne Virtual Universe is an</h1>
-            </div>
-            <div class="bottom-text">
-                <h1>immersive visualisation environment that allows visitors to explore space in ways that traditional screens cannot.</h1>
+        <div class="about" id="about" data-reveal-section data-about-interaction>
+            <div class="about-copy" data-about-copy>
+                <div class="top-text">
+                    <h2 class="heading">About</h2>
+                    <h1 class="about-copy__sentence"><span class="about-copy__part">The Swinburne Virtual Universe is an</span></h1>
+                </div>
+                <div class="bottom-text">
+                    <div class="anim-clip">
+                        <h1 class="about-copy__sentence reveal-line" data-reveal-split="true"><button class="about-copy__trigger" type="button" aria-controls="about-feature-image" data-about-image="SVU07BCropped5.jpg" data-about-alt="A presenter guides an audience through a planetary visualisation" data-about-caption="A presenter uses the panoramic display to guide an audience through a planetary visualisation.">immersive visualisation environment</button><span class="about-copy__part"> that allows </span><button class="about-copy__trigger" type="button" aria-controls="about-feature-image" data-about-image="SVU01D.jpg" data-about-alt="Visitors wearing 3D glasses watch an astronomical visualisation" data-about-caption="Visitors experience astronomical imagery in three dimensions.">visitors</button><span class="about-copy__part"> to </span><button class="about-copy__trigger" type="button" aria-controls="about-feature-image" data-about-image="SVU20B.jpg" data-about-alt="Visitors point towards a close-up visualisation of Saturn" data-about-caption="Visitors explore Saturn at room scale on the curved display.">explore space</button><span class="about-copy__part"> in ways that </span><button class="about-copy__trigger" type="button" aria-controls="about-feature-image" data-about-image="SVU11C.jpg" data-about-alt="A presenter and audience surrounded by a panoramic view of Saturn and the Milky Way" data-about-caption="The panoramic environment surrounds an audience with Saturn and the Milky Way.">traditional screens cannot.</button></h1>
+                    </div>
+                </div>
             </div>
             <div class="about-image-content">
                 <div class="left-column">
-                    <img src="SVU19BC.jpg" alt="" class="interactive-about-img">
+                    <img src="SVU19BC.jpg" alt="Three visitors explore a colourful nebula on the Virtual Universe display" class="interactive-about-img" id="about-feature-image" data-about-feature-image>
                 </div>
                 <div class="right-column">
                     <div class="caption">
                         <h2 class="caption-heading">Image</h2>
-                        <p>Image: Description of image goes here. E.g. Dr. Kirsten presenting stuff</p>
+                        <p data-about-caption-output aria-live="polite">Visitors explore a nebula across the Virtual Universe's immersive display.</p>
                     </div>
                     <div class="icons">
                         <img src="icon-wide.svg" alt="">
@@ -312,6 +316,7 @@
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
     <script src="smooth-scroll.js"></script>
     <script src="text-reveal.js"></script>
+    <script src="about-interactions.js"></script>
     <script src="services.js"></script>
 </body>
 </html>

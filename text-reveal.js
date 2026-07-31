@@ -144,7 +144,7 @@ function splitElementIntoLines(el) {
 function splitPlainTextIntoLines(container, text) {
     container.innerHTML = "";
 
-    const measure = document.createElement("p");
+    const measure = document.createElement("div");
     measure.className = "description-measure";
     text.split(/(\s+)/).forEach((part) => {
         if (!part) return;

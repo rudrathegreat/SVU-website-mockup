@@ -7,8 +7,8 @@ if (aboutSection) {
     const aboutTriggers = [...aboutSection.querySelectorAll(".about-copy__trigger")];
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const imageTransitionDuration = 160;
-    const lineTransitionDuration = 220;
-    const lineStagger = 20;
+    const lineTransitionDuration = 500;
+    const lineStagger = 40;
     const defaultFeature = {
         image: aboutImage.getAttribute("src"),
         alt: aboutImage.getAttribute("alt"),

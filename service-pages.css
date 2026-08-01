@@ -69,9 +69,14 @@
 }
 
 .service-hero h1 {
-    max-width:14ch;
+    max-width:none;
     font-size:clamp(3.5rem, 4.5vw, 4rem);
     line-height:1;
+    white-space:nowrap;
+}
+
+.service-hero h1 .reveal-line {
+    white-space:nowrap;
 }
 
 .service-hero__intro {
@@ -660,7 +665,7 @@
     }
 
     .service-hero h1 {
-        font-size:clamp(2.5rem, 12vw, 4rem);
+        font-size:clamp(1.75rem, 7.5vw, 4rem);
     }
 
     .service-hero__description {

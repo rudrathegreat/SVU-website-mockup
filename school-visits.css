@@ -4,28 +4,14 @@
     object-position:center 43%;
 }
 
-.section-heading--wide {
-    display:grid;
-    grid-template-columns:minmax(0, 1.2fr) minmax(18rem, 0.55fr);
-    align-items:end;
-    gap:5vw;
+.programs-statement {
     margin-bottom:clamp(3rem, 6vh, 5rem);
 }
 
-.section-heading--wide > div {
-    display:flex;
-    flex-direction:column;
-    gap:1.5rem;
-}
-
-.section-heading--wide h2 {
-    max-width:13ch;
-}
-
-.section-heading__note {
-    color:var(--color-text);
-    max-width:36rem;
-    font-size:1rem;
+.programs-statement h2 {
+    max-width:none;
+    font-size:clamp(2.5rem, 5.2vw, 5rem);
+    line-height:1.05;
 }
 
 .fact-grid {
@@ -84,7 +70,6 @@
     flex-direction:column;
     gap:1.3rem;
     background:var(--surface);
-    border-top:1px solid var(--line);
 }
 
 .feature-card__number {
@@ -159,11 +144,6 @@
 }
 
 @media (max-width: 640px) {
-    .section-heading--wide {
-        grid-template-columns:1fr;
-        align-items:start;
-    }
-
     .fact-grid--four {
         grid-template-columns:1fr;
     }

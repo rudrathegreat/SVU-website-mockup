@@ -12,19 +12,18 @@
         scrollWheelZoom: false,
     });
 
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+    map.createPane("campus-map-labels");
+    map.getPane("campus-map-labels").style.zIndex = 450;
+    map.getPane("campus-map-labels").style.pointerEvents = "none";
+
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png", {
         attribution: "&copy; OpenStreetMap contributors &copy; CARTO",
         maxZoom: 20,
     }).addTo(map);
 
-    L.circle(atcLocation, {
-        radius: 105,
-        color: "#ffffff",
-        weight: 1,
-        opacity: 0.65,
-        fillColor: "#1c1c1c",
-        fillOpacity: 0.18,
-        interactive: false,
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png", {
+        pane: "campus-map-labels",
+        maxZoom: 20,
     }).addTo(map);
 
     const markerIcon = L.divIcon({

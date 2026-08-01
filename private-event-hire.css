@@ -146,7 +146,7 @@
     gap:0.35rem;
     color:var(--color-text);
     background:rgba(3, 7, 5, 0.92);
-    border:1px solid var(--line);
+    border:1px solid #333333;
     pointer-events:none;
 }
 
@@ -160,7 +160,12 @@
 }
 
 .campus-map .leaflet-tile-pane {
-    filter:grayscale(1) contrast(1.15) brightness(0.78);
+    filter:grayscale(1) contrast(1.05) brightness(1.55);
+}
+
+.campus-map .leaflet-campus-map-labels-pane {
+    opacity:0.78;
+    filter:grayscale(1) contrast(1.08) brightness(1.18);
 }
 
 .campus-map .leaflet-control-zoom,
@@ -211,8 +216,6 @@
     width:1.5rem;
     height:1.5rem;
     background:var(--color-text);
-    border:0.4rem solid #030705;
-    outline:1px solid var(--color-text);
 }
 
 .campus-map .leaflet-tooltip {

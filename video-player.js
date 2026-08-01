@@ -124,9 +124,7 @@
             ? document.activeElement
             : openButton;
 
-        if (Number.isFinite(backgroundVideo.currentTime)) {
-            video.currentTime = backgroundVideo.currentTime;
-        }
+        video.currentTime = 0;
 
         backgroundVideo.pause();
         video.muted = false;
